@@ -247,10 +247,15 @@ export default defineConfig({
 		},
 		allowedHosts: true,
 	},
+	optimizeDeps: {
+		exclude: ['zustand/traditional'],
+		include: ['zustand']
+	},
 	resolve: {
 		extensions: ['.jsx', '.js', '.tsx', '.ts', '.json', ],
 		alias: {
 			'@': path.resolve(__dirname, './src'),
+			'zustand/traditional': 'zustand'
 		},
 	},
 	build: {
@@ -260,7 +265,14 @@ export default defineConfig({
 				'@babel/traverse',
 				'@babel/generator',
 				'@babel/types'
-			]
+			],
+			output: {
+				manualChunks: undefined
+			}
+		},
+		commonjsOptions: {
+			include: [/zustand/, /node_modules/],
+			transformMixedEsModules: true
 		}
 	}
 });
