@@ -123,3 +123,4 @@ WebApp/
 - Verifica que la carpeta `assets/` se subió completamente
 - Limpia la caché del navegador (Ctrl+Shift+R o Cmd+Shift+R)
 
+

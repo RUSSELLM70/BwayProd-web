@@ -1,107 +1,142 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Play } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Clock, Calendar, ExternalLink } from 'lucide-react';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 
 const videos = [
   {
     id: 1,
-    title: "Campaña de Moda Urbana",
-    category: "Reels",
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1964&auto=format&fit=crop",
-    duration: "0:30"
+    title: "Recap Battle Warriors CR",
+    category: "Eventos",
+    image: "",
+    videoUrl: "https://bwayprodcontent.s3.us-east-1.amazonaws.com/backup/Material+para+pagina/Recaps/Recap+%40battlewarriorscr++2%EF%B8%8F%E2%83%A30%EF%B8%8F%E2%83%A32%EF%B8%8F%E2%83%A33%EF%B8%8F%E2%83%A3+%F0%9F%8E%A5%F0%9F%92%AA%F0%9F%8F%BF%F0%9F%9A%80.mp4",
+    duration: "2:19",
+    description: "Recap dinámico del evento Battle Warriors CR, capturando la energía y la intensidad del combate. Producción que documenta los momentos más impactantes del evento con edición cinematográfica.",
+    date: "2024",
+    client: "Battle Warriors CR"
   },
   {
     id: 2,
-    title: "Highlight de Boda",
+    title: "Competencia de DownHill",
     category: "Eventos",
-    image: "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop",
-    duration: "1:00"
+    image: "",
+    videoUrl: "https://bwayprodcontent.s3.us-east-1.amazonaws.com/backup/Material+para+pagina/Recaps/AVENTURE+PARK/DH.mp4",
+    duration: "1:22",
+    description: "Recap cinematográfico de competencia de DownHill, capturando la velocidad, adrenalina y destreza de los ciclistas. Producción dinámica que documenta la intensidad del descenso con edición de ritmo acelerado y tomas impactantes.",
+    date: "Enero 2023",
+    client: "Adventure Park Heredia"
   },
   {
     id: 3,
-    title: "Video Corporativo Tech",
-    category: "Empresas",
-    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop",
-    duration: "1:45"
+    title: "DJ EL FARI - DJ Set Live from Surf Abu Dhabi",
+    category: "Eventos",
+    image: "",
+    videoUrl: "https://bwayprodcontent.s3.us-east-1.amazonaws.com/backup/Material+para+pagina/Recaps/DJFariEL+FARI+%E2%80%93+Afro+House+DJ+Set+Live+from+Surf+Abu+Dhabi+%7C+Latin+Vibes+%2B+Live+Sax+.mp4",
+    duration: "38:38",
+    description: "Producción audiovisual del DJ set de El Fari, capturando la energía y el ritmo de la música electrónica. Video dinámico que documenta la conexión entre el artista y la audiencia, con edición sincronizada al beat que transmite la intensidad de la experiencia musical en vivo.",
+    date: "Noviembre 2025",
+    client: "DJ El Fari"
   },
   {
     id: 4,
-    title: "Drone View Costa Rica",
-    category: "Aéreo",
-    image: "https://images.unsplash.com/photo-1473186505569-9c61870c11f9?q=80&w=2070&auto=format&fit=crop",
-    duration: "0:45"
+    title: "Tapon en FlowFest - Live Performance",
+    category: "Eventos",
+    image: "",
+    videoUrl: "https://bwayprodcontent.s3.us-east-1.amazonaws.com/backup/Material+para+pagina/Recaps/FLOWFEST/Recap-Tapon.mp4",
+    duration: "01:07",
+    description: "Producción audiovisual del show en vivo de Tapon en FlowFest, capturando la energía y el carisma del artista nacional. Video dinámico que documenta los momentos más impactantes de la presentación, con edición cinematográfica que refleja la conexión entre el artista y su audiencia.",
+    date: "Julio 2023",
+    client: "FlowFest"
+  },
+  {
+    id: 5,
+    title: "Contenido para Canal 6 - Noticias",
+    category: "Eventos",
+    image: "",
+    videoUrl: "https://bwayprodcontent.s3.us-east-1.amazonaws.com/backup/Material+para+pagina/Recaps/Repretel/Repretel+Recap..mp4",
+    duration: "0:55",
+    description: "Producción audiovisual profesional para Canal 6, destacando calidad televisiva y contenido de alto nivel. Video que refleja los estándares de excelencia del canal con edición precisa y narrativa visual efectiva.",
+    date: "Junio 2022",
+    client: "Canal 6"
+  },
+  {
+    id: 6,
+    title: "Víctor Ramírez | Físico Culturista",
+    category: "Contenido - Redes Sociales",
+    image: "",
+    videoUrl: "https://bwayprodcontent.s3.us-east-1.amazonaws.com/backup/Material+para+pagina/Recaps/ROAD+to+Mr+Olimpia.mp4",
+    duration: "2:50",
+    description: "Producción audiovisual profesional para Víctor Ramírez, físico culturista. Video que destaca la dedicación, disciplina y estética corporal del atleta, capturando su transformación física con edición cinematográfica que resalta la excelencia y el profesionalismo del culturismo.",
+    date: "Julio 2025",
+    client: "Victor Ramirez"
   }
 ];
 
 const VideoCarousel = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [selectedVideo, setSelectedVideo] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const videoRef = useRef(null);
   const timerRef = useRef(null);
 
   const nextSlide = () => {
     setActiveIndex((prev) => (prev + 1) % videos.length);
+    setIsPlaying(true);
   };
 
   const prevSlide = () => {
     setActiveIndex((prev) => (prev - 1 + videos.length) % videos.length);
+    setIsPlaying(true);
   };
 
+  // Auto-play carousel
   useEffect(() => {
-    if (!isHovered) {
-      timerRef.current = setInterval(nextSlide, 5000);
+    if (!isHovered && isPlaying) {
+      timerRef.current = setInterval(() => {
+        setActiveIndex((prev) => (prev + 1) % videos.length);
+      }, 5000);
     }
     return () => clearInterval(timerRef.current);
-  }, [isHovered]);
+  }, [isHovered, isPlaying]);
+
+  const currentVideo = videos[activeIndex];
 
   return (
-    <section className="py-24 md:py-32 bg-grafito relative overflow-hidden">
-      {/* Background Ambience */}
-      <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-cyan-900/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-purple-900/5 rounded-full blur-[120px] pointer-events-none" />
+    <section className="py-24 md:py-32 bg-[#050508] relative overflow-hidden">
+      {/* Dynamic Background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-[10%] left-[5%] w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px]" />
+        <div className="absolute bottom-[10%] right-[5%] w-[600px] h-[600px] bg-cyan-600/10 rounded-full blur-[120px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-white/5 to-transparent" />
+      </div>
 
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8 relative z-10 max-w-7xl">
         
         {/* Section Header */}
         <motion.div 
-          className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6"
+          className="mb-20 text-center"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
         >
-          <div className="max-w-2xl">
-            <span className="inline-block text-cyan-400 text-xs font-semibold tracking-[0.2em] uppercase mb-4 opacity-80">
-              Nuestro Trabajo
-            </span>
-            <h2 className="text-3xl md:text-5xl font-bold font-montserrat text-white tracking-tight leading-tight">
-              Galería en <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">Movimiento</span>
-            </h2>
-          </div>
-          
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex gap-3">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={prevSlide}
-              className="rounded-full border border-white/10 hover:bg-white/10 hover:border-white/30 text-white transition-all duration-300 w-12 h-12"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={nextSlide}
-              className="rounded-full border border-white/10 hover:bg-white/10 hover:border-white/30 text-white transition-all duration-300 w-12 h-12"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </Button>
-          </div>
+          <span className="inline-block text-white/50 text-xs font-light tracking-[0.3em] uppercase mb-4">
+            Portfolio Visual
+          </span>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black font-montserrat text-white tracking-tight leading-[1.1] mb-4">
+            Galería en <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400">Movimiento</span>
+          </h2>
+          <p className="text-white/60 text-base md:text-lg max-w-2xl mx-auto font-light">
+            Cada proyecto cuenta una historia única. Descubre la calidad cinematográfica que define nuestro trabajo.
+          </p>
         </motion.div>
 
         {/* Carousel Container */}
         <div 
-          className="relative w-full aspect-[16/9] md:aspect-[2.35/1] rounded-3xl overflow-hidden bg-white/5 border border-white/5 shadow-2xl group"
+          className="relative w-full aspect-[16/9] rounded-xl overflow-hidden group"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
@@ -110,98 +145,147 @@ const VideoCarousel = () => {
               key={activeIndex}
               initial={{ opacity: 0, scale: 1.05 }}
               animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.7, ease: [0.32, 0.72, 0, 1] }}
-              className="absolute inset-0 w-full h-full"
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute inset-0"
             >
-              {/* Image */}
-              <img 
-                src={videos[activeIndex].image} 
-                alt={videos[activeIndex].title}
-                className="w-full h-full object-cover opacity-90 transition-transform duration-[5000ms] ease-linear scale-100 group-hover:scale-105"
+              {/* Video */}
+              <video
+                ref={videoRef}
+                src={currentVideo.videoUrl}
+                className="w-full h-full object-cover"
+                autoPlay
+                loop
+                muted
+                playsInline
               />
               
-              {/* Gradients */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-black/50 opacity-40" />
+              {/* Subtle Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
               
-              {/* Content Overlay */}
-              <div className="absolute bottom-0 left-0 p-8 md:p-16 w-full max-w-5xl flex flex-col items-start z-10">
+              {/* Minimal Content Overlay */}
+              <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-12 lg:p-16 z-10">
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2, duration: 0.5 }}
-                  className="space-y-3"
+                  transition={{ delay: 0.3, duration: 0.5, ease: "easeOut" }}
+                  className="space-y-4 max-w-3xl"
                 >
                   <div className="flex items-center gap-4">
-                     <span className="px-3 py-1 bg-white/10 backdrop-blur-md border border-white/20 text-white text-[10px] md:text-xs font-bold tracking-widest uppercase rounded-full">
-                        {videos[activeIndex].category}
-                      </span>
-                      <div className="h-px w-8 bg-white/40"></div>
-                      <span className="text-white/80 text-xs md:text-sm font-medium tracking-wide">
-                        {videos[activeIndex].duration}
-                      </span>
+                    <span className="px-3 py-1.5 bg-white/5 backdrop-blur-md border border-white/10 text-white/90 text-[11px] font-medium tracking-[0.15em] uppercase rounded-md">
+                      {currentVideo.category}
+                    </span>
+                    <div className="flex items-center gap-2 text-white/70 text-sm font-light">
+                      <Clock className="w-3.5 h-3.5" />
+                      <span>{currentVideo.duration}</span>
+                    </div>
                   </div>
                   
-                  <h3 className="text-2xl md:text-5xl font-bold text-white font-montserrat tracking-tight leading-none">
-                    {videos[activeIndex].title}
+                  <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white font-montserrat tracking-tight leading-tight">
+                    {currentVideo.title}
                   </h3>
-                </motion.div>
-              </div>
 
-              {/* Play Button - Centered */}
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-                <motion.div
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  whileHover={{ scale: 1.1 }}
-                  transition={{ delay: 0.1, type: "spring", stiffness: 300, damping: 20 }}
-                  className="pointer-events-auto cursor-pointer group/play"
-                >
-                    <div className="relative flex items-center justify-center w-20 h-20 md:w-28 md:h-28 rounded-full bg-white/5 backdrop-blur-sm border border-white/20 hover:bg-white/10 hover:border-cyan-400/50 transition-all duration-500">
-                        <div className="absolute inset-0 rounded-full border border-white/10 opacity-0 group-hover/play:opacity-100 group-hover/play:scale-125 transition-all duration-700" />
-                        <Play className="w-8 h-8 md:w-10 md:h-10 text-white fill-white ml-1 opacity-90 group-hover/play:text-cyan-400 group-hover/play:fill-cyan-400 transition-colors duration-300" />
-                    </div>
+                  <div className="pt-2">
+                    <Button
+                      onClick={() => {
+                        setSelectedVideo(currentVideo);
+                        setIsModalOpen(true);
+                      }}
+                      variant="ghost"
+                      className="group/btn px-6 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 text-white backdrop-blur-md transition-all duration-300 hover:border-white/20 rounded-md"
+                    >
+                      <span className="text-sm font-medium">Ver detalles</span>
+                      <ExternalLink className="w-4 h-4 ml-2 opacity-60 group-hover/btn:opacity-100 transition-opacity" />
+                    </Button>
+                  </div>
                 </motion.div>
               </div>
             </motion.div>
           </AnimatePresence>
 
-          {/* Mobile Navigation Controls */}
-           <div className="absolute inset-x-0 bottom-6 px-6 flex justify-end items-center gap-4 md:hidden pointer-events-none z-20">
-               <Button
-                variant="ghost"
-                size="icon"
-                onClick={prevSlide}
-                className="pointer-events-auto rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-white w-10 h-10 hover:bg-white/20"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </Button>
-               <Button
-                variant="ghost"
-                size="icon"
-                onClick={nextSlide}
-                className="pointer-events-auto rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-white w-10 h-10 hover:bg-white/20"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </Button>
-           </div>
-        </div>
+          {/* Subtle Navigation Arrows */}
+          <motion.button
+            onClick={prevSlide}
+            className="absolute left-6 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-white hover:bg-black/60 hover:border-white/20 transition-all duration-300 flex items-center justify-center z-20 opacity-0 group-hover:opacity-100"
+            aria-label="Anterior"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </motion.button>
+          
+          <motion.button
+            onClick={nextSlide}
+            className="absolute right-6 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-white hover:bg-black/60 hover:border-white/20 transition-all duration-300 flex items-center justify-center z-20 opacity-0 group-hover:opacity-100"
+            aria-label="Siguiente"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <ChevronRight className="w-5 h-5" />
+          </motion.button>
 
-        {/* Minimal Progress Indicators */}
-        <div className="flex justify-center mt-10 gap-2">
+          {/* Minimal Progress Indicators */}
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20">
             {videos.map((_, idx) => (
               <button
                 key={idx}
                 onClick={() => setActiveIndex(idx)}
-                className={`h-1 rounded-full transition-all duration-500 ease-out ${
-                  idx === activeIndex ? 'w-16 bg-gradient-to-r from-cyan-400 to-purple-500' : 'w-2 bg-white/10 hover:bg-white/30'
+                className={`h-0.5 rounded-full transition-all duration-500 ${
+                  idx === activeIndex ? 'w-10 bg-white' : 'w-2 bg-white/40 hover:bg-white/60'
                 }`}
-                aria-label={`Go to slide ${idx + 1}`}
+                aria-label={`Ir a video ${idx + 1}`}
               />
             ))}
+          </div>
         </div>
       </div>
+
+      {/* Modal */}
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <DialogContent className="max-w-5xl bg-[#050508] border-white/10 p-0 overflow-hidden">
+          {selectedVideo && (
+            <div className="relative">
+              <video
+                src={selectedVideo.videoUrl}
+                className="w-full h-auto"
+                controls
+                autoPlay
+              />
+              <div className="p-8 md:p-10 space-y-6">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="space-y-3 flex-1">
+                    <h3 className="text-3xl md:text-4xl font-bold text-white font-montserrat tracking-tight">
+                      {selectedVideo.title}
+                    </h3>
+                    <div className="flex items-center gap-6 text-white/60 text-sm font-light">
+                      <div className="flex items-center gap-2">
+                        <Calendar className="w-4 h-4" />
+                        <span>{selectedVideo.date}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Clock className="w-4 h-4" />
+                        <span>{selectedVideo.duration}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <span className="px-3 py-1.5 bg-white/5 backdrop-blur-md border border-white/10 text-white/90 text-[11px] font-medium tracking-[0.15em] uppercase rounded-md whitespace-nowrap">
+                    {selectedVideo.category}
+                  </span>
+                </div>
+                
+                <div className="pt-6 border-t border-white/10 space-y-4">
+                  <p className="text-white/80 text-base md:text-lg leading-relaxed font-light">
+                    {selectedVideo.description}
+                  </p>
+                  <p className="text-white/60 text-sm">
+                    <span className="font-medium text-white/80">Cliente:</span> {selectedVideo.client}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
