@@ -102,3 +102,4 @@ Si tienes problemas con el despliegue:
 2. Verifica que el módulo `mod_rewrite` esté habilitado en Apache
 3. Contacta al soporte de Hostinger si es necesario
 
+
