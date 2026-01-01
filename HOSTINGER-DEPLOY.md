@@ -221,3 +221,4 @@ Si tienes problemas:
 2. Verifica la consola del navegador (F12) para errores específicos
 3. Contacta al soporte de Hostinger si es un problema del servidor
 
+
