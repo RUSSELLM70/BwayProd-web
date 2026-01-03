@@ -9,16 +9,16 @@ const Contact = () => {
     {
       icon: <Phone className="w-6 h-6" />,
       title: 'WhatsApp',
-      content: '+506 7047-0555',
-      link: 'https://wa.me/50670470555',
+      content: '+506 7103-2432',
+      link: 'https://wa.me/50671032432',
       action: 'Enviar mensaje',
       delay: 0.1
     },
     {
       icon: <Mail className="w-6 h-6" />,
       title: 'Correo Electrónico',
-      content: 'booking@bwayprod.com',
-      link: 'mailto:booking@bwayprod.com',
+      content: 'bwayproductions420@gmail.com',
+      link: 'mailto:bwayproductions420@gmail.com',
       action: 'Escribir ahora',
       delay: 0.2
     },
@@ -41,12 +41,27 @@ const Contact = () => {
   ];
 
   return (
-    <section id="contacto" className="py-24 md:py-32 relative overflow-hidden bg-[#050508]">
-      {/* Dynamic Background */}
+    <section id="contacto" className="py-24 md:py-32 relative overflow-hidden bg-[#050508] -mt-24 pt-24">
+      {/* Dynamic Background - Gradientes suaves sin blur */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[10%] left-[5%] w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-[10%] right-[5%] w-[600px] h-[600px] bg-cyan-600/10 rounded-full blur-[120px]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-white/5 to-transparent" />
+        <div 
+          className="absolute top-[10%] left-[5%] w-[600px] h-[600px] rounded-full opacity-30" 
+          style={{ 
+            background: 'radial-gradient(circle, rgba(147, 51, 234, 0.15) 0%, rgba(147, 51, 234, 0) 70%)',
+            transform: 'translateZ(0)',
+            WebkitBackfaceVisibility: 'hidden',
+            backfaceVisibility: 'hidden'
+          }} 
+        />
+        <div 
+          className="absolute bottom-[10%] right-[5%] w-[700px] h-[700px] rounded-full opacity-30" 
+          style={{ 
+            background: 'radial-gradient(circle, rgba(6, 182, 212, 0.15) 0%, rgba(6, 182, 212, 0) 70%)',
+            transform: 'translateZ(0)',
+            WebkitBackfaceVisibility: 'hidden',
+            backfaceVisibility: 'hidden'
+          }} 
+        />
       </div>
 
       <div className="container mx-auto px-6 relative z-10">
@@ -117,7 +132,7 @@ const Contact = () => {
                 variant="pill" 
                 size="lg"
                 className="px-10 py-6 text-base md:text-lg h-auto min-w-[280px]"
-                onClick={() => window.open('https://wa.me/50670470555', '_blank')}
+                onClick={() => window.open('https://wa.me/50671032432', '_blank')}
               >
                 <MessageSquare className="w-5 h-5 mr-3" />
                 Chatear con un Productor
@@ -127,7 +142,7 @@ const Contact = () => {
           
           <div className="mt-8 flex items-center justify-center gap-3 text-sm text-gray-500 bg-white/5 px-4 py-2 rounded-full border border-white/5">
             <Clock className="w-4 h-4 text-cyan-500" />
-            <span>Horario de atención: Lun - Vie, 9:00 AM - 7:00 PM</span>
+            <span>Horario de atención: Siempre disponible</span>
           </div>
         </motion.div>
 

@@ -10,11 +10,26 @@ const CallToAction = () => {
 
   return (
     <section className="relative py-24 md:py-32 bg-[#050508] overflow-hidden">
-      {/* Dynamic Background */}
+      {/* Dynamic Background - Gradientes suaves sin blur */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[10%] left-[5%] w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-[10%] right-[5%] w-[600px] h-[600px] bg-cyan-600/10 rounded-full blur-[120px]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-white/5 to-transparent" />
+        <div 
+          className="absolute top-[10%] left-[5%] w-[600px] h-[600px] rounded-full opacity-30" 
+          style={{ 
+            background: 'radial-gradient(circle, rgba(147, 51, 234, 0.15) 0%, rgba(147, 51, 234, 0) 70%)',
+            transform: 'translateZ(0)',
+            WebkitBackfaceVisibility: 'hidden',
+            backfaceVisibility: 'hidden'
+          }} 
+        />
+        <div 
+          className="absolute bottom-[10%] right-[5%] w-[700px] h-[700px] rounded-full opacity-30" 
+          style={{ 
+            background: 'radial-gradient(circle, rgba(6, 182, 212, 0.15) 0%, rgba(6, 182, 212, 0) 70%)',
+            transform: 'translateZ(0)',
+            WebkitBackfaceVisibility: 'hidden',
+            backfaceVisibility: 'hidden'
+          }} 
+        />
       </div>
 
       <div className="container mx-auto px-6 relative z-10">
@@ -49,7 +64,7 @@ const CallToAction = () => {
               size="lg" 
               variant="hero" 
               className="w-full sm:w-auto min-w-[200px] h-14 text-sm md:text-base font-semibold tracking-wide shadow-cyan-500/20 hover:shadow-cyan-500/40"
-              onClick={() => window.open('https://wa.me/50670470555', '_blank')}
+              onClick={() => window.open('https://wa.me/50671032432', '_blank')}
             >
               <MessageCircle className="mr-2 w-5 h-5" />
               WhatsApp

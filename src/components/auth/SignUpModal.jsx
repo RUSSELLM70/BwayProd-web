@@ -29,7 +29,6 @@ export function SignUpModal({ open, onOpenChange, defaultTab = 'signup' }) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
 
   // Reset tab when modal opens with a new default
   useEffect(() => {
@@ -118,23 +117,28 @@ export function SignUpModal({ open, onOpenChange, defaultTab = 'signup' }) {
         <DialogTitle className="sr-only">Authentication</DialogTitle>
         
         {/* Reflective Glass Card Container */}
-        <div className="relative w-full overflow-hidden rounded-2xl border border-white/10 bg-black/40 backdrop-blur-xl shadow-2xl">
+        <div className="relative w-full overflow-hidden rounded-2xl border border-white/20 bg-[#050508]/80 backdrop-blur-xl shadow-2xl">
           
-          {/* Video Background with Overlay */}
-          <div className="absolute inset-0 w-full h-full z-0 overflow-hidden">
-            <div className="absolute inset-0 bg-black/70 z-10 backdrop-blur-sm" /> {/* Dark overlay for readability */}
-            <video 
-              autoPlay 
-              loop 
-              muted 
-              playsInline
-              onLoadedData={() => setIsVideoLoaded(true)}
-              className={`w-full h-full object-cover transition-opacity duration-1000 ${isVideoLoaded ? 'opacity-40' : 'opacity-0'}`}
-            >
-              <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-technology-white-circuit-board-loop-20419-large.mp4" type="video/mp4" />
-            </video>
-            {/* Fallback gradient if video fails or loads slow */}
-            <div className={`absolute inset-0 bg-gradient-to-br from-grafito via-black to-grafito -z-10 ${isVideoLoaded ? 'opacity-0' : 'opacity-100'}`} />
+          {/* Dynamic Background - Gradientes suaves sin blur */}
+          <div className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
+            <div 
+              className="absolute top-[10%] left-[5%] w-[400px] h-[400px] rounded-full opacity-08" 
+              style={{ 
+                background: 'radial-gradient(circle, rgba(147, 51, 234, 0.15) 0%, rgba(147, 51, 234, 0) 70%)',
+                transform: 'translateZ(0)',
+                WebkitBackfaceVisibility: 'hidden',
+                backfaceVisibility: 'hidden'
+              }} 
+            />
+            <div 
+              className="absolute bottom-[10%] right-[5%] w-[450px] h-[450px] rounded-full opacity-04" 
+              style={{ 
+                background: 'radial-gradient(circle, rgba(6, 182, 212, 0.15) 0%, rgba(6, 182, 212, 0) 70%)',
+                transform: 'translateZ(0)',
+                WebkitBackfaceVisibility: 'hidden',
+                backfaceVisibility: 'hidden'
+              }} 
+            />
           </div>
 
           {/* Card Content */}
@@ -151,12 +155,12 @@ export function SignUpModal({ open, onOpenChange, defaultTab = 'signup' }) {
 
             {/* Glassy Tabs */}
             <div className="px-8 pb-6">
-              <div className="flex w-full bg-white/5 p-1 rounded-xl border border-white/10 backdrop-blur-md">
+              <div className="flex w-full bg-white/5 p-1 rounded-xl border border-white/20 backdrop-blur-md">
                 <button
                   onClick={() => handleTabChange('login')}
                   className={`flex-1 py-2 text-sm font-semibold rounded-lg transition-all duration-300 ${
                     activeTab === 'login' 
-                      ? 'bg-white/10 text-white shadow-[0_0_10px_rgba(255,255,255,0.1)] border border-white/10' 
+                      ? 'bg-gradient-to-r from-cyan-500/20 to-purple-500/20 text-white shadow-[0_0_10px_rgba(34,211,238,0.2)] border border-cyan-500/30' 
                       : 'text-gray-400 hover:text-white hover:bg-white/5'
                   }`}
                 >
@@ -166,7 +170,7 @@ export function SignUpModal({ open, onOpenChange, defaultTab = 'signup' }) {
                   onClick={() => handleTabChange('signup')}
                   className={`flex-1 py-2 text-sm font-semibold rounded-lg transition-all duration-300 ${
                     activeTab === 'signup' 
-                      ? 'bg-white/10 text-white shadow-[0_0_10px_rgba(255,255,255,0.1)] border border-white/10' 
+                      ? 'bg-gradient-to-r from-cyan-500/20 to-purple-500/20 text-white shadow-[0_0_10px_rgba(34,211,238,0.2)] border border-cyan-500/30' 
                       : 'text-gray-400 hover:text-white hover:bg-white/5'
                   }`}
                 >
@@ -177,7 +181,7 @@ export function SignUpModal({ open, onOpenChange, defaultTab = 'signup' }) {
 
             <div className="px-8 pb-8">
               <div className="text-center mb-6">
-                 <h2 className="text-xl font-bold text-white mb-1 drop-shadow-md">
+                 <h2 className="text-xl md:text-2xl font-bold text-white mb-1 drop-shadow-[0_2px_8px_rgba(168,85,247,0.3)]">
                    {activeTab === 'login' ? 'Bienvenido de nuevo' : 'Únete a BWAY'}
                  </h2>
                  <p className="text-gray-400 text-xs font-light">
@@ -194,7 +198,7 @@ export function SignUpModal({ open, onOpenChange, defaultTab = 'signup' }) {
                       id="fullName"
                       name="fullName"
                       placeholder="Bway Prod"
-                      className="bg-black/40 border-white/10 text-white placeholder:text-gray-600 focus-visible:ring-[#22c55e] focus-visible:border-[#22c55e]/50 rounded-lg h-10 transition-all duration-300 hover:bg-black/50"
+                      className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus-visible:ring-cyan-500/50 focus-visible:border-cyan-500/50 rounded-lg h-10 transition-all duration-300 hover:bg-white/10"
                       value={formData.fullName}
                       onChange={handleChange}
                       required
@@ -208,8 +212,8 @@ export function SignUpModal({ open, onOpenChange, defaultTab = 'signup' }) {
                     id="email"
                     name="email"
                     type="email"
-                    placeholder="tu@email.com"
-                    className="bg-black/40 border-white/10 text-white placeholder:text-gray-600 focus-visible:ring-[#22c55e] focus-visible:border-[#22c55e]/50 rounded-lg h-10 transition-all duration-300 hover:bg-black/50"
+                    placeholder="bwayprod@gmail.com"
+                    className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus-visible:ring-cyan-500/50 focus-visible:border-cyan-500/50 rounded-lg h-10 transition-all duration-300 hover:bg-white/10"
                     value={formData.email}
                     onChange={handleChange}
                     required
@@ -226,7 +230,7 @@ export function SignUpModal({ open, onOpenChange, defaultTab = 'signup' }) {
                       name="password"
                       type={showPassword ? "text" : "password"}
                       placeholder="••••••••"
-                      className="bg-black/40 border-white/10 text-white placeholder:text-gray-600 focus-visible:ring-[#22c55e] focus-visible:border-[#22c55e]/50 rounded-lg h-10 pr-10 transition-all duration-300 hover:bg-black/50"
+                      className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus-visible:ring-cyan-500/50 focus-visible:border-cyan-500/50 rounded-lg h-10 pr-10 transition-all duration-300 hover:bg-white/10"
                       value={formData.password}
                       onChange={handleChange}
                       required
@@ -251,7 +255,7 @@ export function SignUpModal({ open, onOpenChange, defaultTab = 'signup' }) {
                         name="confirmPassword"
                         type={showConfirmPassword ? "text" : "password"}
                         placeholder="••••••••"
-                        className="bg-black/40 border-white/10 text-white placeholder:text-gray-600 focus-visible:ring-[#22c55e] focus-visible:border-[#22c55e]/50 rounded-lg h-10 pr-10 transition-all duration-300 hover:bg-black/50"
+                        className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus-visible:ring-cyan-500/50 focus-visible:border-cyan-500/50 rounded-lg h-10 pr-10 transition-all duration-300 hover:bg-white/10"
                         value={formData.confirmPassword}
                         onChange={handleChange}
                         required
@@ -276,17 +280,17 @@ export function SignUpModal({ open, onOpenChange, defaultTab = 'signup' }) {
                       checked={formData.termsAccepted}
                       onCheckedChange={(checked) => setFormData(prev => ({ ...prev, termsAccepted: checked }))}
                       required
-                      className="mt-0.5 border-white/30 data-[state=checked]:bg-[#22c55e] data-[state=checked]:border-[#22c55e] data-[state=checked]:text-black bg-black/20"
+                      className="mt-0.5 border-white/30 data-[state=checked]:bg-cyan-500 data-[state=checked]:border-cyan-500 data-[state=checked]:text-white bg-white/5"
                     />
                     <Label htmlFor="terms" className="text-xs text-gray-400 leading-snug font-normal cursor-pointer">
-                      Acepto la <span className="text-[#22c55e] hover:underline hover:text-green-400 transition-colors">Política de Privacidad</span> y los <span className="text-[#22c55e] hover:underline hover:text-green-400 transition-colors">Términos de Servicio</span>.
+                      Acepto la <span className="text-cyan-400 hover:underline hover:text-cyan-300 transition-colors">Política de Privacidad</span> y los <span className="text-cyan-400 hover:underline hover:text-cyan-300 transition-colors">Términos de Servicio</span>.
                     </Label>
                   </div>
                 )}
 
                 {activeTab === 'login' && (
                    <div className="flex justify-end px-1">
-                     <a href="#" className="text-[#22c55e] hover:underline text-xs font-medium hover:text-green-400 transition-colors" onClick={() => toast({ title: "🚧 Feature coming soon!" })}>
+                     <a href="#" className="text-cyan-400 hover:underline text-xs font-medium hover:text-cyan-300 transition-colors" onClick={() => toast({ title: "🚧 Feature coming soon!" })}>
                        ¿Olvidaste tu contraseña?
                      </a>
                    </div>
@@ -294,9 +298,9 @@ export function SignUpModal({ open, onOpenChange, defaultTab = 'signup' }) {
 
                 <Button 
                   type="submit" 
-                  variant="hero" // Changed to hero variant
-                  size="default" // Using default size which is rounded-full
-                  className="w-full mt-4 text-white uppercase text-base" // Added uppercase and adjusted font size for consistency
+                  variant="default"
+                  size="lg"
+                  className="w-full mt-4 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 hover:from-cyan-400 hover:via-purple-400 hover:to-pink-400 text-white border-none shadow-lg shadow-purple-500/40 uppercase tracking-wider font-semibold"
                   disabled={loading}
                 >
                   {loading ? (
@@ -313,9 +317,9 @@ export function SignUpModal({ open, onOpenChange, defaultTab = 'signup' }) {
                   <div className="pt-4">
                     <div className="relative flex items-center justify-center mb-4">
                       <div className="absolute inset-0 flex items-center">
-                        <div className="w-full border-t border-white/10"></div>
+                        <div className="w-full border-t border-white/20"></div>
                       </div>
-                      <div className="relative bg-black/40 backdrop-blur-md px-2 text-[10px] text-gray-500 uppercase font-medium rounded">
+                      <div className="relative bg-[#050508]/80 backdrop-blur-md px-2 text-[10px] text-gray-400 uppercase font-medium rounded">
                         O continúa con
                       </div>
                     </div>
@@ -323,14 +327,14 @@ export function SignUpModal({ open, onOpenChange, defaultTab = 'signup' }) {
                     <div className="flex justify-center gap-4">
                       <button 
                         type="button" 
-                        className="p-2.5 rounded-full bg-white/5 hover:bg-white/10 transition-all duration-300 border border-white/10 hover:border-white/30 hover:scale-105"
+                        className="p-2.5 rounded-full bg-white/5 hover:bg-white/10 transition-all duration-300 border border-white/20 hover:border-cyan-500/50 hover:scale-105 hover:shadow-[0_0_15px_rgba(34,211,238,0.2)]"
                         onClick={() => toast({ title: "🚧 Social login coming soon!" })}
                       >
                         <GoogleIcon />
                       </button>
                       <button 
                         type="button" 
-                        className="p-2.5 rounded-full bg-white/5 hover:bg-white/10 transition-all duration-300 border border-white/10 hover:border-white/30 hover:scale-105"
+                        className="p-2.5 rounded-full bg-white/5 hover:bg-white/10 transition-all duration-300 border border-white/20 hover:border-cyan-500/50 hover:scale-105 hover:shadow-[0_0_15px_rgba(34,211,238,0.2)]"
                         onClick={() => toast({ title: "🚧 Social login coming soon!" })}
                       >
                         <FacebookIcon />
