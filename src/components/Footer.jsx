@@ -180,7 +180,7 @@ const Footer = () => {
                 <Youtube size={18} />
               </a>
               <a 
-                href="mailto:info@bwayproductions.com" 
+                href="mailto:bwayproductions420@gmail.com" 
                 className="text-white/50 hover:text-white transition-colors"
                 aria-label="Email"
               >
@@ -198,11 +198,11 @@ const Footer = () => {
 
           {/* Contact - Compact */}
           <div className="flex flex-col gap-2 text-sm">
-            <a href="mailto:info@bwayproductions.com" className="text-white/50 hover:text-white transition-colors">
-              info@bwayproductions.com
+            <a href="mailto:bwayproductions420@gmail.com" className="text-white/50 hover:text-white transition-colors">
+              bwayproductions420@gmail.com
             </a>
-            <a href="tel:+50600000000" className="text-white/50 hover:text-white transition-colors">
-              +506 0000-0000
+            <a href="tel:+50671032432" className="text-white/50 hover:text-white transition-colors">
+              +506 7103-2432
             </a>
             <span className="text-white/40 text-xs">San José, Costa Rica</span>
           </div>

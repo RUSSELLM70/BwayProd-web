@@ -17,7 +17,7 @@ const ColorBends = () => {
       <div className="absolute inset-0 bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900 opacity-60" />
 
       {/* Animated Gradient Orbs */}
-      <div className="absolute inset-0 overflow-hidden filter blur-[80px] opacity-80">
+      <div className="absolute inset-0 overflow-hidden filter blur-[80px] opacity-80" style={{ willChange: 'transform', transform: 'translateZ(0)', imageRendering: 'auto' }}>
         
         {/* Orb 1: Cyan/Blue - Top Left */}
         <motion.div 
