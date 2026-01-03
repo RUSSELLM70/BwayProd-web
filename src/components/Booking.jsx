@@ -22,7 +22,7 @@ const Booking = () => {
   const handleSubmit = e => {
     e.preventDefault();
     const message = `Hola, me gustaría reservar una sesión:%0A%0ANombre: ${formData.name}%0AEmail: ${formData.email}%0AServicio: ${formData.service}%0AFecha preferida: ${formData.date}%0AMensaje: ${formData.message}`;
-    window.open(`https://wa.me/50670470555?text=${message}`, '_blank');
+    window.open(`https://wa.me/50671032432?text=${message}`, '_blank');
     toast({
       title: "¡Solicitud enviada!",
       description: "Te redirigimos a WhatsApp para confirmar tu reserva."
@@ -36,11 +36,27 @@ const Booking = () => {
     });
   };
   const inputStyles = "w-full pl-12 pr-4 py-4 bg-black/20 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500 transition-all duration-300 text-white placeholder:text-gray-500 hover:border-cyan-500/30 hover:bg-black/30";
-  return <section id="reservas" className="py-20 md:py-32 relative overflow-hidden bg-[#050508] min-h-screen">
-      {/* Dynamic Background */}
+  return <section id="reservas" className="py-20 md:py-32 relative overflow-hidden bg-[#050508] min-h-screen -mt-24 pt-24">
+      {/* Dynamic Background - Gradientes suaves sin blur */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[10%] left-[5%] w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-[10%] right-[5%] w-[600px] h-[600px] bg-cyan-600/10 rounded-full blur-[120px]" />
+        <div 
+          className="absolute top-[10%] left-[5%] w-[600px] h-[600px] rounded-full opacity-30" 
+          style={{ 
+            background: 'radial-gradient(circle, rgba(147, 51, 234, 0.15) 0%, rgba(147, 51, 234, 0) 70%)',
+            transform: 'translateZ(0)',
+            WebkitBackfaceVisibility: 'hidden',
+            backfaceVisibility: 'hidden'
+          }} 
+        />
+        <div 
+          className="absolute bottom-[10%] right-[5%] w-[700px] h-[700px] rounded-full opacity-30" 
+          style={{ 
+            background: 'radial-gradient(circle, rgba(6, 182, 212, 0.15) 0%, rgba(6, 182, 212, 0) 70%)',
+            transform: 'translateZ(0)',
+            WebkitBackfaceVisibility: 'hidden',
+            backfaceVisibility: 'hidden'
+          }} 
+        />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-white/5 to-transparent" />
       </div>
 
@@ -61,8 +77,13 @@ const Booking = () => {
             <span className="text-sm font-semibold text-cyan-400 uppercase tracking-wider">Comienza tu Proyecto</span>
           </div>
           
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 text-white tracking-tight">
-            Reserva tu <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">Sesión Creativa</span>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 tracking-tight">
+            <div className="text-white drop-shadow-[0_0_15px_rgba(135,206,250,0.5)] mb-2">
+              Reserva tu
+            </div>
+            <div className="text-3xl md:text-4xl lg:text-5xl text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-blue-400 to-purple-400 drop-shadow-[0_0_15px_rgba(135,206,250,0.6)]">
+              Sesión Creativa
+            </div>
           </h2>
           <p className="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
             Completa el formulario y nos pondremos en contacto contigo para crear contenido que impulse tu marca al siguiente nivel.
@@ -120,19 +141,12 @@ const Booking = () => {
                 Disponibilidad
               </h3>
               <div className="space-y-4 text-sm">
-                <div className="flex justify-between items-center border-b border-white/5 pb-3">
-                  <span className="text-gray-400">Lunes - Viernes</span>
-                  <span className="text-white font-semibold">9:00 AM - 11:00 PM</span>
+                <div className="flex justify-center items-center py-4">
+                  <span className="text-cyan-400 font-semibold text-lg">Siempre disponible</span>
                 </div>
-                <div className="flex justify-between items-center border-b border-white/5 pb-3">
-                  <span className="text-gray-400">Sábados</span>
-                  <span className="text-white font-semibold">Bajo Reserva</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-400">Domingos</span>
-                  <span className="text-cyan-400 font-semibold">Bajo Reserva
-                </span>
-                </div>
+                <p className="text-gray-400 text-xs text-center leading-relaxed">
+                  Estamos disponibles para atenderte en cualquier momento. Contáctanos y te responderemos lo antes posible.
+                </p>
               </div>
             </div>
           </motion.div>

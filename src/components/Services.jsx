@@ -509,7 +509,7 @@ const ServiceCard = ({ service }) => (
       <Button 
         variant="outline" 
         className="w-full h-11 text-sm rounded-full border-cyan-500/40 text-cyan-400 hover:bg-cyan-500 hover:text-black hover:border-cyan-500 hover:shadow-[0_0_20px_rgba(34,212,240,0.4)] transition-all duration-300 font-semibold tracking-wide"
-        onClick={() => window.open(`https://wa.me/50670470555?text=Hola,%20me%20interesa%20reservar%20el%20${encodeURIComponent(service.title)}`, '_blank')}
+        onClick={() => window.open(`https://wa.me/50671032432?text=Hola,%20me%20interesa%20reservar%20el%20${encodeURIComponent(service.title)}`, '_blank')}
       >
         Reservar ahora
       </Button>
@@ -629,7 +629,7 @@ const Services = () => {
           
           <Button
             className="group relative px-10 py-8 text-lg rounded-full bg-black border border-cyan-500 text-cyan-400 hover:bg-cyan-950/30 hover:shadow-[0_0_30px_rgba(6,182,212,0.2)] hover:text-cyan-300 hover:border-cyan-400 transition-all duration-300"
-            onClick={() => window.open('https://wa.me/50670470555', '_blank')}
+            onClick={() => window.open('https://wa.me/50671032432', '_blank')}
           >
             <MessageSquare className="w-6 h-6 mr-4 group-hover:scale-110 transition-transform duration-300 stroke-[1.5px]" />
             <span className="font-medium tracking-wide">Hablar con un Asesor</span>

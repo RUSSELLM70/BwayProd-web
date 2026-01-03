@@ -21,6 +21,14 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Scroll to top cuando cambia la ruta
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }, [location.pathname]);
+
   const openAuthModal = (tab) => {
     setInitialAuthTab(tab);
     setIsAuthModalOpen(true);
@@ -62,6 +70,9 @@ const Header = () => {
                 <Link
                   key={item.name}
                   to={item.href}
+                  onClick={() => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
                   className={`text-sm tracking-widest font-medium transition-all duration-300 hover:text-white relative group ${
                     location.pathname === item.href ? 'text-white' : 'text-white/60'
                   }`}
@@ -93,6 +104,9 @@ const Header = () => {
                   <Link
                     key={item.name}
                     to={item.href}
+                    onClick={() => {
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
                     className={`text-sm tracking-widest font-medium transition-all duration-300 hover:text-white relative group ${
                       location.pathname === item.href ? 'text-white' : 'text-white/60'
                     }`}
@@ -165,7 +179,10 @@ const Header = () => {
                       className={`text-lg tracking-widest font-medium transition-colors duration-300 ${
                         location.pathname === item.href ? 'text-white' : 'text-white/60 hover:text-white'
                       }`}
-                      onClick={() => setIsMobileMenuOpen(false)}
+                      onClick={() => {
+                        setIsMobileMenuOpen(false);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
                     >
                       {item.name}
                     </Link>

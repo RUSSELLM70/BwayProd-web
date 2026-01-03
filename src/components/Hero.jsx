@@ -70,7 +70,7 @@ const Hero = () => {
           className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-2"
         >
           <Button 
-            onClick={() => window.open('https://wa.me/50670470555', '_blank')} 
+            onClick={() => window.open('https://wa.me/50671032432', '_blank')} 
             variant="hero"
             size="lg"
             className="font-bold px-10"
